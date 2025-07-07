@@ -1,0 +1,143 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.outercontainer {
+    width: 90%;
+    max-width: 600px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.header {
+    background-color: #2c3e50;
+    padding: 18px;
+    text-align: center;
+    color: white;
+}
+
+.conversationcontainer {
+    padding: 20px;
+    height: 400px;
+    overflow-y: auto;
+    background-color: #fdfdfd;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message {
+    display: flex;
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    line-height: 1.5;
+    max-width: 80%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.user {
+    background-color: #4a90e2;
+    color: white;
+    align-self: flex-end;
+    border: 1px solid #357abd;
+}
+
+.bot {
+    background-color: #00b894;
+    color: white;
+    align-self: flex-start;
+    border: 1px solid #00997b;
+}
+
+.inputcontainer {
+    display: flex;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    gap: 8px;
+    align-items: center;
+}
+
+.inputtextbox {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.inputtextbox:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+.submitbutton, .endbutton {
+    margin-left: 10px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 40px; /* Fixed height */
+    line-height: 20px; /* Center text vertically */
+    transition: all 0.2s ease;
+}
+
+.submitbutton {
+    background-color: #27ae60;
+    color: white;
+    transition: background-color 0.2s ease;
+}
+
+.submitbutton:hover {
+    background-color: #219a52;
+}
+
+.endbutton {
+    background-color: #6c757d;
+    color: white;
+    transition: background-color 0.2s ease;
+}
+
+.endbutton:hover {
+    background-color: #5a6268;
+}
+
+.typing {
+    background-color: rgba(0, 184, 148, 0.9);
+    padding: 12px 16px;
+}
+
+.typing .dot {
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 6px;
+    height: 6px;
+}
+
+/* Animation tweaks */
+@keyframes typingAnimation {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+    100% { transform: translateY(0); }
+}
+
+/* Additional hover effects */
+.message {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.message:hover {
+    transform: translateX(2px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
