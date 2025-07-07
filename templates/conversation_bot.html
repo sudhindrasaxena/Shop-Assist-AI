@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Assistant</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="outercontainer">
+        <div class="header">
+            <h1 class="title">ShopAssist AI (ShopAssist 2.0)</h1>
+        </div>
+        <div class="conversationcontainer" id="chatcontainer">
+            {% for entry in name_xyz %}
+            <div class="message {% if entry.bot %}bot{% else %}user{% endif %}">
+                {% if entry.bot %}
+                {{ entry.bot }}
+                {% else %}
+                {{ entry.user }}
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="inputcontainer">
+            <input type="text" id="user_input_message" class="inputtextbox" placeholder="Type your message...">
+            <button onclick="sendMessage()" class="submitbutton">Send</button>
+            <!-- End Conversation Button -->
+            <form onsubmit="event.preventDefault(); endConversation();" class="endform">
+                <button type="submit" class="endbutton">End Conversation</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function scrollToBottom() {
+            var chatContainer = document.getElementById('chatcontainer');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+    
+        function sendMessage() {
+            let userInput = document.getElementById("user_input_message").value;
+            if (!userInput.trim()) return;
+    
+            let chatContainer = document.getElementById("chatcontainer");
+    
+            // Append user message
+            let userDiv = document.createElement("div");
+            userDiv.className = "message user";
+            userDiv.textContent = userInput;
+            chatContainer.appendChild(userDiv);
+            scrollToBottom();
+    
+            document.getElementById("user_input_message").value = "";
+    
+            // Show Typing Animation
+            let typingDiv = document.createElement("div");
+            typingDiv.className = "message bot typing";
+            typingDiv.innerHTML = "<span class='dot'></span><span class='dot'></span><span class='dot'></span>"; 
+            chatContainer.appendChild(typingDiv);
+            scrollToBottom();
+    
+            fetch("/conversation", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ "user_input_message": userInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Remove "Typing..." animation
+                chatContainer.removeChild(typingDiv);
+    
+                if (data.conversation) {
+                    let botDiv = document.createElement("div");
+                    botDiv.className = "message bot";
+                    botDiv.textContent = data.conversation[data.conversation.length - 1].bot;
+                    chatContainer.appendChild(botDiv);
+                    scrollToBottom();
+                }
+            });
+        }
+        function endConversation() {
+            fetch("/end_conversation", { method: "POST" })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById("chatcontainer").innerHTML = "<div class='bot'>Chat reset. How can I help you?</div>";
+                }
+            });
+        }
+    </script>
+    
+</body>
+</html>
